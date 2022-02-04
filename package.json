@@ -24,7 +24,7 @@
     "webpack-cli": "^4.9.1"
   },
   "scripts": {
-    "serve": "webpack --watch --config webpack.config.js",
+    "serve": "webpack --watch --config webpack.config.js --mode development",
     "start": "node build/src/main.js",
     "clean": "rimraf coverage build tmp",
     "prebuild": "npm run lint",

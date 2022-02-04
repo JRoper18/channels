@@ -1,4 +1,5 @@
-import TestAnimation from "./animations/testanimation";
+// import TestAnimation from "./animations/testanimation";
+import ThreeBodyAnimation from "./animations/3bodyanimation";
 
 /**
  * Some predefined delay values (in milliseconds).
@@ -32,5 +33,5 @@ function delayedHello(
 export async function greeter(name: string) {
   return await delayedHello(name, Delays.Long);
 }
-const anim = new TestAnimation(document.getElementById("animationElement"));
+const anim = new ThreeBodyAnimation(document.getElementById("animationElement"));
 anim.start();

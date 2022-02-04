@@ -26,8 +26,18 @@ export default abstract class ThreeAnimation {
             this.update(delta)
             this.renderer.render( this.scene, this.camera );    
         }
-        this.currentTime = newTime;
         requestAnimationFrame( this.frameAnimate.bind(this) );
     }
     abstract update(delta : number) : void
+
+    // private getScreenPosition(pos : THREE.Vector3) : THREE.Vector2 {
+    //     var width = window.innerWidth, height = window.innerHeight;
+    //     var widthHalf = width / 2, heightHalf = height / 2;
+
+    //     var pos = pos.clone();
+    //     pos.project(this.camera);
+    //     pos.x = ( pos.x * widthHalf ) + widthHalf;
+    //     pos.y = - ( pos.y * heightHalf ) + heightHalf;
+    //     return new THREE.Vector2(pos.x, pos.y);
+    // }
 }
