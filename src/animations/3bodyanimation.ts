@@ -50,28 +50,33 @@ export default class ThreeBodyAnimation extends ThreeAnimation {
         const delta = in_delta * 0.0003
         const oldCenter = new Vector3();
         const newCenter = new Vector3(0, 0, 0);
+        const oldPositions : Array<Vector3> = []
         for(let i = 0; i<this.bodyMeshes.length; i++){
-            var ipos = this.bodyMeshes[i].position.clone()
+            let ipos = this.bodyMeshes[i].position.clone()
+            oldPositions.push(ipos)
             oldCenter.add(ipos)
             let dv = new THREE.Vector3(0, 0, 0)
             for(let j = 0; j<this.bodyMeshes.length; j++){
-              if(i == j){
-                continue;
-              }
-              let jpos = this.bodyMeshes[j].position.clone()
-              let dist = jpos.clone().distanceTo(ipos)
-              if(dist <= 0.1){
-                //They're super close, so they'll probably rocket apart. For the sake of making it look cool, just ignore it this round.
-                continue;
-              }
-              dv = dv.add(jpos.sub(ipos).multiplyScalar(this.masses[j]/(Math.pow(dist, 2))))
+                if(i == j){
+                    continue;
+                }
+                let jpos = this.bodyMeshes[j].position.clone()
+                let dist = jpos.clone().distanceTo(ipos)
+                if(dist <= 0.1){
+                    dist = 0.1
+                    //They're super close, so they should rocket apart so that they dont get stuck together. 
+                    // dv = dv.add(new THREE.Vector3(randFloat(0, 1), randFloat(0, 1), randFloat(0, 1)).multiplyScalar(10))
+                }
+                dv = dv.add(jpos.sub(ipos).multiplyScalar(this.masses[j]/(Math.pow(dist, 2))))
             }
             this.velocities[i].addScaledVector(dv, delta)
+        }
+        for(let i = 0; i<this.bodyMeshes.length; i++) {
             this.bodyMeshes[i].position.addScaledVector(this.velocities[i], delta);
             newCenter.add(this.bodyMeshes[i].position)
 
             // Now also draw/update the trails. 
-            const lineGeometry = new THREE.BufferGeometry().setFromPoints([ipos.clone(), this.bodyMeshes[i].position.clone()]);
+            const lineGeometry = new THREE.BufferGeometry().setFromPoints([oldPositions[i].clone(), this.bodyMeshes[i].position.clone()]);
             const lineMat = new THREE.LineBasicMaterial( { color: this.colors[i] })
             lineMat.transparent = true;
             const line = new THREE.Line( lineGeometry, lineMat );
