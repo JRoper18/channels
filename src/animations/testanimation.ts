@@ -12,7 +12,6 @@ export default class TestAnimation extends ThreeAnimation {
     attribute vec3 position;
 
     varying vec3 vPosition;
-    varying vec4 vColor;
 
     void main()	{
 

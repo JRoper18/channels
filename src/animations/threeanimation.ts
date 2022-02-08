@@ -4,7 +4,6 @@ export default abstract class ThreeAnimation {
     renderer : THREE.WebGLRenderer
     scene : THREE.Scene
     camera : THREE.PerspectiveCamera
-    previousTime : DOMHighResTimeStamp
     currentTime : DOMHighResTimeStamp
     constructor(element : HTMLElement) {
         this.scene = new THREE.Scene();
@@ -18,11 +17,11 @@ export default abstract class ThreeAnimation {
         this.frameAnimate(0);
     }
     private frameAnimate(newTime : DOMHighResTimeStamp) : void {
-        if(this.previousTime === undefined) {
-            this.previousTime = newTime;
+        if(this.currentTime === undefined) {
+            this.currentTime = newTime;
         } else {
-            const delta = newTime - this.previousTime;
-            this.previousTime = newTime;
+            const delta = newTime - this.currentTime;
+            this.currentTime = newTime;
             this.update(delta)
             this.renderer.render( this.scene, this.camera );    
         }
